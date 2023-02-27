@@ -1,0 +1,4 @@
+deployment:
+  buyerbff:
+    image: "tmoechel/buyerbff"
+    tag: "1.5"
