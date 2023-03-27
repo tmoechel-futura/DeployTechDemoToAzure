@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.org/server-snippets: |
+      location / {
+        proxy_set_header X-Forwarded-For $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+      }
+  name: keycloakingress
+spec:
+  tls:
+    - hosts:
+        - dev.testfutura-cloud.com
+      secretName: test-tls
+  ingressClassName: nginx
+  rules:
+    - host: dev.testfutura-cloud.com
+      http:
+        paths:
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 80
+          - path: /login*
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 80        

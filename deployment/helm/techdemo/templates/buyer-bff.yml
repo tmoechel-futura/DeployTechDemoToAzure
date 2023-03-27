@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
         - name: buyer-bff
-          image: {{ .Values.deployment.buyerbff.image }}:{{ .Values.deployment.buyerbff.tag }}
+          image: tmoechel/buyer-bff:1.6
           imagePullPolicy: Always
           env:
             - name: ASPNETCORE_URLS

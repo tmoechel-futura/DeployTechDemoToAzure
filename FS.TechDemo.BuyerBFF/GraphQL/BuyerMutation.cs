@@ -1,4 +1,5 @@
-﻿using FS.TechDemo.BuyerBFF.GraphQL.Extensions;
+﻿using FS.TechDemo.BuyerBFF.GraphQL.Authentication;
+using FS.TechDemo.BuyerBFF.GraphQL.Extensions;
 using FS.TechDemo.BuyerBFF.GraphQL.RequestHandler;
 using FS.TechDemo.BuyerBFF.GraphQL.Types.Order;
 using Google.Protobuf.WellKnownTypes;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace FS.TechDemo.BuyerBFF.GraphQL;
 
-public class BuyerMutation: ObjectType
+public class BuyerMutation: AuthorizedObjectTypeBase
 {
     private readonly IMediator _mediator;
     private readonly ILoggerFactory _loggerFactory;

@@ -20,6 +20,10 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:8080
       - ASPNETCORE_ENVIRONMENT=Development
+      - IdentityProvider__Authority=https://dev.testfutura-cloud.com/login/realms/devbuyer
+      - IdentityProvider__Audience=buyerbff
+      - IdentityProvider__ValidAudiences__0=account
+      - IdentityProvider__ValidAudiences__1=buyerbff
       - Logging__SimpleConsole__IncludeScopes=false
       - GRPCOut__GRPC__0__Destination=OrderService
       - GRPCOut__GRPC__0__Channel__Endpoint=http://order-service:8080
@@ -74,8 +78,6 @@ services:
     networks:
       - grpc-net
     entrypoint: [ "dotnet", "FS.TechDemo.DeliveryService.dll" ]   
-      
-    
     
   mysql:
     hostname: mysql
