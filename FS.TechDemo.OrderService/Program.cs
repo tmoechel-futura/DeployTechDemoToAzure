@@ -14,6 +14,7 @@ builder.Services.AddLogging();
 
 // builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
 //     .WriteTo.Seq("http://localhost:5341"));
+// test change
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
