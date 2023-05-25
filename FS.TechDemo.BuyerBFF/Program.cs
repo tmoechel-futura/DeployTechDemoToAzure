@@ -23,6 +23,7 @@ builder.Services.AddLogging();
 //     .Enrich.WithProperty("Assembly", typeof(Program).Assembly.GetName().Name!)
 //     .WriteTo.Console()
 //     .CreateLogger();
+// test change
 
 // graphql specific
 builder.Services
