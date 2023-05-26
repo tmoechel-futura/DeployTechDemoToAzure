@@ -9,7 +9,7 @@ on:
     paths:
       - FS.TechDemo.OrderService/**
       - FS.TechDemo.Shared/**
-      - .github/workflows/orderserivce.yml
+      - .github/workflows/orderservice.yml
       
 #  pull_request:
 #    branches: [ "main", "dev" ]
