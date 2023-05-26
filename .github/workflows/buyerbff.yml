@@ -70,7 +70,6 @@ jobs:
         id: show-kv-secrets
         run: |
           echo ${{ steps.azure-keyvault-secrets.outputs.kvcontainerdeploydemo }}
-          az group Create --name ${{ steps.azure-keyvault-secrets.outputs.example2 }} --location uksouth
 #      - uses: ./.github/workflows/composite/build-push
 #        with:
 #          service: ${{ env.SERVICE }}
