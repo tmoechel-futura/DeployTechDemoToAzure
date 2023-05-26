@@ -51,7 +51,22 @@ jobs:
           password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
       - run: docker build -t ${{ env.IMAGE_NAME }} -f ./${{ env.SERVICE_DIR }}/Dockerfile .
       - run: docker push ${{ env.IMAGE_NAME }}        
-
+      
+      - name: 'Get secrets'
+        id: azure-keyvault-secrets
+        run: |
+          secrets_get=(rabbitmqpassword)
+          for secret_get in ${secrets_get[@]}
+          do
+            value=$(az keyvault secret show --name $secret_get --vault-name kvcontainerdeploydemo --query value --output tsv)
+            echo "::add-mask::$value"
+            echo "$secret_get=$value" >> $GITHUB_OUTPUT
+          done
+      - name: "Show secrets"
+        id: show-kv-secrets
+        run: |
+          echoe ${{ steps.azure-keyvault-secrets.outputs.kvcontainerdeploydemo }}
+          az group Create --name ${{ steps.azure-keyvault-secrets.outputs.example2 }} --location uksouth
 #      - uses: ./.github/workflows/composite/build-push
 #        with:
 #          service: ${{ env.SERVICE }}
