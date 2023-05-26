@@ -51,7 +51,11 @@ jobs:
           password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
       - run: docker build -t ${{ env.IMAGE_NAME }} -f ./${{ env.SERVICE_DIR }}/Dockerfile .
       - run: docker push ${{ env.IMAGE_NAME }}        
-      
+
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - name: 'Get secrets'
         id: azure-keyvault-secrets
         run: |
