@@ -69,7 +69,7 @@ jobs:
       - name: "Show secrets"
         id: show-kv-secrets
         run: |
-          echo ${{ steps.azure-keyvault-secrets.outputs.kvcontainerdeploydemo }}
+          echo ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
 #      - uses: ./.github/workflows/composite/build-push
 #        with:
 #          service: ${{ env.SERVICE }}
