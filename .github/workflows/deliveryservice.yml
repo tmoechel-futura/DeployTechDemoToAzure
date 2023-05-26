@@ -23,7 +23,7 @@ env:
   SERVICE_DIR: FS.TechDemo.DeliveryService
   IMAGE: delivery-service
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
-  IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/buyer-bff:${{ github.sha }}
+  IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/deliveryservice:${{ github.sha }}
   
 jobs:
 #  BuildContainersForPR_Linux:
