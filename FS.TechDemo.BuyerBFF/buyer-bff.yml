@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
         - name: buyer-bff
-          image: acrdeploydemo.azurecr.io/buyer-bff 
+          image: buyer-bff 
           imagePullPolicy: Always
           env:
             - name: ASPNETCORE_URLS
