@@ -37,7 +37,7 @@ jobs:
 #          service: ${{ env.SERVICE }}
 #          registry_endpoint: ${{ secrets.REGISTRY_ENDPOINT }}
   
-  BuildLinux:
+  build-image:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
     steps:
@@ -55,6 +55,7 @@ jobs:
       - uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - name: 'Get secrets'
         id: azure-keyvault-secrets
         run: |
@@ -62,17 +63,55 @@ jobs:
           for secret_get in ${secrets_get[@]}
           do
             value=$(az keyvault secret show --name $secret_get --vault-name kvcontainerdeploydemo --query value --output tsv)
+            echo "::add-mask::$value"
             echo "$secret_get=$value" >> $GITHUB_OUTPUT
           done
       - name: "Show secrets"
         id: show-kv-secrets
         run: |
           echo ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-#      - uses: ./.github/workflows/composite/build-push
-#        with:
-#          service: ${{ env.SERVICE }}
-#          registry_host: ${{ secrets.REGISTRY_HOST }}
-#          registry_endpoint: ${{ secrets.REGISTRY_ENDPOINT }}
-#          image_name: ${{ env.IMAGE }}
-#          registry_username: ${{ secrets.USERNAME }}
-#          registry_password: ${{ secrets.PASSWORD }}      
+  
+  deploy-to-aks:
+    runs-on: ubuntu-latest
+    
+    if: github.ref == 'refs/heads/master'
+    
+    needs: build-image
+    #env:
+    #NAMESPACE: dummy
+    
+    steps:
+
+      # to checkout additional files required for deployment
+      - uses: actions/checkout@main
+      
+      # Set the target Azure Kubernetes Service (AKS) cluster. 
+      - uses: azure/aks-set-context@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          cluster-name: ${{ secrets.AKS_NAME }}
+          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+      
+      # Create namespace if doesn't exist
+      # - run: |
+      #    kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+      
+      # Create image pull secret for ACR
+      - uses: azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ${{ env.ACR_LOGON_SERVER }}
+          container-registry-username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+          container-registry-password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
+          secret-name: ${{ secrets.AKS_SECRET }}
+          # namespace: ${{ env.NAMESPACE }}
+      
+      # Deploy app to AKS
+      - uses: azure/k8s-deploy@v1
+        with:
+          manifests: |
+            FS.TechDemo.BuyerBFF/buyer-bff.yml
+          images: |
+            ${{ env.IMAGE_NAME }}
+          imagepullsecrets: |
+            ${{ secrets.AKS_SECRET }}
+          #namespace: ${{ env.NAMESPACE }}
