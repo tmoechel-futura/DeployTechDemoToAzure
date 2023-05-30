@@ -46,7 +46,6 @@ spec:
     spec:
       containers:
         - name: buyer-bff
-          image: buyer-bff 
           imagePullPolicy: Always
           env:
             - name: ASPNETCORE_URLS
