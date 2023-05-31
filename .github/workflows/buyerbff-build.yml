@@ -10,13 +10,6 @@ on:
       - FS.TechDemo.BuyerBFF/**
       - FS.TechDemo.Shared/**
       - .github/workflows/buyerbff.yml
-      
-#  pull_request:
-#    branches: [ "main", "dev" ]
-#    paths:
-#      - FS.TechDemo.BuyerBFF/**
-#      - FS.TechDemo.Shared/**
-#      - .github/workflows/buyerbff.yml
 
 env:
   SERVICE: buyer-bff
@@ -80,7 +73,7 @@ jobs:
       - name: Replace tokens for Service Config
         uses: cschleiden/replace-tokens@v1
         with:
-          files: ./FS.TechDemo.BuyerBFF/buyer-bff.yml
+          files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
         env:
           idp-admin-password: admin-secret
           idp-admin-username: admin  
