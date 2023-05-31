@@ -64,7 +64,7 @@ jobs:
       - name: Replace tokens for Service Config
         uses: cschleiden/replace-tokens@v1.2
         with:
-          files: ./${{env.SERVICE_DIR}}/{{env.SERVICE}}.yml
+          files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
         env:
           idp-admin-password: admin-secret    
   
@@ -81,7 +81,7 @@ jobs:
 
       # to checkout additional files required for deployment
       - uses: actions/checkout@v3
-      
+
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
