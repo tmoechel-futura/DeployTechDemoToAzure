@@ -19,7 +19,7 @@ on:
 #      - .github/workflows/buyerbff.yml
 
 env:
-  SERVICE: buyerbff
+  SERVICE: buyer-bff
   SERVICE_DIR: FS.TechDemo.BuyerBFF
   IMAGE: buyer-bff
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
