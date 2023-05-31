@@ -60,6 +60,13 @@ jobs:
         id: show-kv-secrets
         run: |
           echo ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+          
+      - name: Replace tokens for Service Config
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          files: ./${{env.SERVICE_DIR}}/{{env.SERVICE}}.yml
+        env:
+          idp-admin-password: admin-secret    
   
   deploy-to-aks:
     runs-on: ubuntu-latest
