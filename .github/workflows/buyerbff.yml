@@ -56,6 +56,7 @@ jobs:
             echo "::add-mask::$value"
             echo "$secret_get=$value" >> $GITHUB_OUTPUT
           done
+      
       - name: "Show secrets"
         id: show-kv-secrets
         run: |
@@ -81,7 +82,7 @@ jobs:
     steps:
 
       # to checkout additional files required for deployment
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
 
       - uses: azure/login@v1
         with:
