@@ -63,13 +63,6 @@ jobs:
           echo ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
           echo ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
           
-      - name: Replace tokens for Service Config
-        uses: cschleiden/replace-tokens@v1
-        with:
-          files: ./FS.TechDemo.BuyerBFF/buyer-bff.yml
-        env:
-          idp-admin-password: admin-secret
-          idp-admin-username: admin
   deploy-to-aks:
     runs-on: ubuntu-latest
     
@@ -82,7 +75,15 @@ jobs:
     steps:
 
       # to checkout additional files required for deployment
-      # - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        
+      - name: Replace tokens for Service Config
+        uses: cschleiden/replace-tokens@v1
+        with:
+          files: ./FS.TechDemo.BuyerBFF/buyer-bff.yml
+        env:
+          idp-admin-password: admin-secret
+          idp-admin-username: admin  
 
       - uses: azure/login@v1
         with:
