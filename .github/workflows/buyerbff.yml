@@ -114,4 +114,4 @@ jobs:
             ${{ env.IMAGE_NAME }}
           imagepullsecrets: |
             ${{ secrets.AKS_SECRET }}
-          #namespace: ${{ env.NAMESPACE }}
+          namespace: ${{ env.NAMESPACE }}
