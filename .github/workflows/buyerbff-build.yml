@@ -37,17 +37,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-      - name: 'Get secrets'
-        id: azure-keyvault-secrets
-        run: |
-          secrets_get=(rabbitmqpassword)
-          for secret_get in ${secrets_get[@]}
-          do
-            value=$(az keyvault secret show --name $secret_get --vault-name kvcontainerdeploydemo --query value --output tsv)
-            echo "::add-mask::$value"
-            echo "$secret_get=$value" >> $GITHUB_OUTPUT
-          done
-      
       - name: "Show secrets"
         id: show-kv-secrets
         run: |
