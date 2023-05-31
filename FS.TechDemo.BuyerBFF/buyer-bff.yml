@@ -66,9 +66,9 @@ spec:
             - name: IdentityProviderAccessOptions__Realm
               value: "buyer"
             - name: IdentityProviderAccessOptions__AdminUserName
-              value: "buyeradmin"
+              value: #{idp-admin-username}#
             - name: IdentityProviderAccessOptions__AdminPassword
-              value: #{idp-admin-password}#  
+              value: #{idp-admin-password}#
           ports:
             # defines the port the container port of the pod
             - containerPort: 8880
