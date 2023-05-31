@@ -6,7 +6,8 @@ on:
     paths:
       - FS.TechDemo.BuyerBFF/**
       - FS.TechDemo.Shared/**
-      - .github/workflows/buyerbff.yml
+      - .github/workflows/buyerbff-build.yml
+      - .github/workflows/buyerbff-deploy.yml
 
 env:
   SERVICE: buyer-bff
