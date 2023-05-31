@@ -26,23 +26,13 @@ env:
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/buyer-bff:${{ github.sha }}
   
 jobs:
-#  BuildContainersForPR_Linux:
-#    runs-on: ubuntu-latest
-#    if: ${{ github.event_name == 'pull_request' }}
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#      - uses: ./.github/workflows/composite/build
-#        with:
-#          service: ${{ env.SERVICE }}
-#          registry_endpoint: ${{ secrets.REGISTRY_ENDPOINT }}
   
   build-image:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.5
       - name: 'Build and push image'
         uses: azure/docker-login@v1
         with:
@@ -52,7 +42,7 @@ jobs:
       - run: docker build -t ${{ env.IMAGE_NAME }} -f ./${{ env.SERVICE_DIR }}/Dockerfile .
       - run: docker push ${{ env.IMAGE_NAME }}        
 
-      - uses: Azure/login@v1
+      - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
@@ -77,36 +67,36 @@ jobs:
     if: github.ref == 'refs/heads/main'
     
     needs: build-image
-    #env:
-    #NAMESPACE: dummy
+    env:
+      NAMESPACE: dev
     
     steps:
 
       # to checkout additional files required for deployment
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v3.5
       
       # Set the target Azure Kubernetes Service (AKS) cluster. 
-      - uses: azure/aks-set-context@v1
+      - uses: azure/aks-set-context@v3.2
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           cluster-name: ${{ secrets.AKS_NAME }}
           resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
       
       # Create namespace if doesn't exist
-      # - run: |
-      #    kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+      - run: |
+          kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
       
       # Create image pull secret for ACR
-      - uses: azure/k8s-create-secret@v1
+      - uses: azure/k8s-create-secret@v4
         with:
           container-registry-url: ${{ env.ACR_LOGON_SERVER }}
           container-registry-username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
           container-registry-password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
           secret-name: ${{ secrets.AKS_SECRET }}
-          # namespace: ${{ env.NAMESPACE }}
+          namespace: ${{ env.NAMESPACE }}
       
       # Deploy app to AKS
-      - uses: azure/k8s-deploy@v1
+      - uses: azure/k8s-deploy@v4.9
         with:
           manifests: |
             FS.TechDemo.BuyerBFF/buyer-bff.yml
