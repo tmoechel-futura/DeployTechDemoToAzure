@@ -19,7 +19,7 @@ env:
   
 jobs:
    test-job:
-     name: testjob
+     name: test
      runs-on: ubuntu-latest
      steps:
        - run: echo "Hello World"
