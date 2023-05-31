@@ -63,7 +63,7 @@ jobs:
           echo ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
           
       - name: Replace tokens for Service Config
-        uses: cschleiden/replace-tokens@v1.2
+        uses: cschleiden/replace-tokens@v1
         with:
           files: ./FS.TechDemo.BuyerBFF/buyer-bff.yml
         env:
