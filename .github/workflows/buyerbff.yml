@@ -65,7 +65,7 @@ jobs:
       - name: Replace tokens for Service Config
         uses: cschleiden/replace-tokens@v1.2
         with:
-          files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
+          files: ./FS.TechDemo.BuyerBFF/buyer-bff.yml
         env:
           idp-admin-password: admin-secret
           idp-admin-username: admin
