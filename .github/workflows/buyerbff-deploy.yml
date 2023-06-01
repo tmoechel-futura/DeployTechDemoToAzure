@@ -37,7 +37,7 @@ jobs:
       - name: 'Get secrets'
         id: azure-keyvault-secrets
         run: |
-          secrets_get=(rabbitmqpassword, admin-user-name)
+          secrets_get=(rabbitmqpassword admin-user-name)
           for secret_get in ${secrets_get[@]}
           do
             value=$(az keyvault secret show --name $secret_get --vault-name kvcontainerdeploydemo --query value --output tsv)
