@@ -52,6 +52,6 @@ spec:
             - name: MessageBroker__Broker__RabbitMq__Username
               value: rabbitmq-user
             - name: MessageBroker__Broker__RabbitMq__Password
-              value: "#{rabbitmq-password]#"
+              value: "#{rabbitmq-password}#"
           ports:
             - containerPort: 8880
