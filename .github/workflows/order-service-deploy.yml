@@ -35,7 +35,7 @@ jobs:
       - name: 'Get secrets'
         id: azure-keyvault-secrets
         run: |
-          secrets_get=(rabbitmqpassword)
+          secrets_get=(rabbitmqpassword, admin-user-name)
           for secret_get in ${secrets_get[@]}
           do
             value=$(az keyvault secret show --name $secret_get --vault-name kvcontainerdeploydemo --query value --output tsv)
@@ -43,12 +43,6 @@ jobs:
             echo "$secret_get=$value" >> $GITHUB_OUTPUT
           done
 
-      - name: "Show secrets"
-        id: show-kv-secrets
-        run: |
-          echo ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-          echo ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
-      
       - uses: actions/checkout@v3
 
       - name: Replace tokens for Service Config
@@ -56,8 +50,8 @@ jobs:
         with:
           files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
         env:
-          idp-admin-password: admin-secret
-          idp-admin-username: admin
+          idp-admin-password: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+          idp-admin-username: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
 
       - uses: azure/login@v1
         with:

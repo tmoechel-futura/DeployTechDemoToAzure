@@ -13,7 +13,6 @@ on:
 env:
   SERVICE: buyer-bff
   SERVICE_DIR: FS.TechDemo.BuyerBFF
-  IMAGE: buyer-bff
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/buyer-bff:${{ github.sha }}
   
@@ -38,27 +37,21 @@ jobs:
       - name: 'Get secrets'
         id: azure-keyvault-secrets
         run: |
-          secrets_get=(rabbitmqpassword)
+          secrets_get=(rabbitmqpassword, admin-user-name)
           for secret_get in ${secrets_get[@]}
           do
             value=$(az keyvault secret show --name $secret_get --vault-name kvcontainerdeploydemo --query value --output tsv)
             echo "::add-mask::$value"
             echo "$secret_get=$value" >> $GITHUB_OUTPUT
           done
-          
-      - name: "Show secrets"
-        id: show-kv-secrets
-        run: |
-          echo ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-          echo ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
       
       - name: Replace tokens for Service Config
         uses: cschleiden/replace-tokens@v1
         with:
           files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
         env:
-          idp-admin-password: admin-secret
-          idp-admin-username: admin
+          idp-admin-password: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+          idp-admin-username: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
 
       - uses: azure/login@v1
         with:

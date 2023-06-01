@@ -3,7 +3,7 @@ name: buyerbff-build
 on:
   workflow_dispatch:
   push:
-    branches: [ "main"]
+    branches: ["main"]
     paths:
       - FS.TechDemo.BuyerBFF/**
       - FS.TechDemo.Shared/**
@@ -13,7 +13,6 @@ on:
 env:
   SERVICE: buyer-bff
   SERVICE_DIR: FS.TechDemo.BuyerBFF
-  IMAGE: buyer-bff
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/buyer-bff:${{ github.sha }}
   

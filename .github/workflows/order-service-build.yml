@@ -13,7 +13,6 @@ on:
 env:
   SERVICE: order-service
   SERVICE_DIR: FS.TechDemo.OrderService
-  IMAGE: order-service
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/order-service:${{ github.sha }}
   
