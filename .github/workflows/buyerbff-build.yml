@@ -1,6 +1,7 @@
 name: buyerbff-build
 
 on:
+  create:
   workflow_dispatch:
     inputs:
       namespace:

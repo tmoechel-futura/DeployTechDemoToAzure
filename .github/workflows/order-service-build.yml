@@ -1,6 +1,7 @@
 name: order-service-build
 
 on:
+  create:
   workflow_dispatch:
     inputs:
       namespace:
@@ -22,7 +23,7 @@ env:
   SERVICE_DIR: FS.TechDemo.OrderService
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/order-service:${{ github.sha }}
-  NAMESPACE: "${{ github.event.inputs.namespace }}"
+  NAMESPACE: ${{ github.event.inputs.namespace }}
   
 jobs:
   build-image:
