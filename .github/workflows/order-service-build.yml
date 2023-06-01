@@ -2,6 +2,12 @@ name: order-service-build
 
 on:
   workflow_dispatch:
+    inputs:
+      namespace:
+        description: "Environment (buyer-d, buyer-q, szfg-q, szfg)"
+        required: true
+        default: "buyer-d"
+        
   push:
     branches: [ "main"]
     paths:
