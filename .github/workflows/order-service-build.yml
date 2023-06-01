@@ -25,7 +25,6 @@ env:
   NAMESPACE: ${{ github.event.inputs.namespace }}
   
 jobs:
-  
   build-image:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}

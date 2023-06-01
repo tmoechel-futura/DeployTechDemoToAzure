@@ -24,7 +24,6 @@ env:
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/buyer-bff:${{ github.sha }}
   
 jobs:
-  
   build-image:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
