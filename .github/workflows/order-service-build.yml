@@ -29,7 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
     steps:
-      - run: echo ${{env.NAMESPACE}} 
+      - run: echo ${{env.NAMESPACE}}
+      - run: echo ${{ github.event.inputs.namespace }}
       - name: Checkout code
         uses: actions/checkout@v3
       - name: 'Build and push image'
