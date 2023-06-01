@@ -1,6 +1,7 @@
 name: order-service-build
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main"]
     paths:
