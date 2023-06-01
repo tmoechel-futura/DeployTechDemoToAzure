@@ -24,7 +24,7 @@ jobs:
     env:
       NAMESPACE: ${{ github.event.inputs.namespace }}
     steps:
-      - run: echo ${{ github.event.inputs.namespace }}
+      - run: echo env.NAMESPACE
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}

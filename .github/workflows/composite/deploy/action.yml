@@ -25,6 +25,9 @@ inputs:
   akv_secrets:
     description: "Secrets to retrieve from Azure Key Vault"
     required: true
+  namespace:
+    description: "Namespace"
+    required: true
 
 runs:
   using: "composite"
@@ -68,7 +71,7 @@ runs:
   - name: 'Create namespace'
     shell: bash  
     run: |
-        kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+        kubectl create namespace ${{ inputs.namespace }} --dry-run -o json | kubectl apply -f -
     
     # Create image pull secret for ACR
   - uses: azure/k8s-create-secret@v4
