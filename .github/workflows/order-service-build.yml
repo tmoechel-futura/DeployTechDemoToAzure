@@ -7,7 +7,7 @@ on:
       namespace:
         description: "Environment (buyer-d, buyer-q, szfg-q, szfg)"
         required: true
-        default: "buyer-d"
+        default: buyer-d
         
   push:
     branches: [ "main"]
@@ -17,6 +17,7 @@ on:
       - .github/workflows/order-service-build.yml
       - .github/workflows/order-service-deploy.yml
       - .github/workflows/composite/**
+
 
 env:
   SERVICE: order-service
