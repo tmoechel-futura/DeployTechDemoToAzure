@@ -32,26 +32,13 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: 'Get secrets'
-        id: azure-keyvault-secrets
-        run: |
-          secrets_get=(rabbitmqpassword admin-user-name)
-          for secret_get in ${secrets_get[@]}
-          do
-            value=$(az keyvault secret show --name $secret_get --vault-name kvcontainerdeploydemo --query value --output tsv)
-            echo "::add-mask::$value"
-            echo "$secret_get=$value" >> $GITHUB_OUTPUT
-          done
+      - uses: ./.github/workflows/composite/deploy
+        with:
+          akv_secrets: (rabbitmqpassword admin-user-name)
+          env-idp-admin-password: idp-admin-password
+          env-idp-admin-username: idp-admin-username
 
       - uses: actions/checkout@v3
-
-      - name: Replace tokens for Service Config
-        uses: cschleiden/replace-tokens@v1
-        with:
-          files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
-        env:
-          idp-admin-password: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-          idp-admin-username: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
 
       - uses: azure/login@v1
         with:
