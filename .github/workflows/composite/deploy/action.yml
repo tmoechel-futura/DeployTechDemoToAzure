@@ -33,4 +33,7 @@ runs:
       files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
     env:
       ${{ inputs.env-idp-admin-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-      ${{ inputs.env-idp-admin-username }}: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}    
+      ${{ inputs.env-idp-admin-username }}: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
+      ${{ inputs. env-rabbitmq-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+      
+     

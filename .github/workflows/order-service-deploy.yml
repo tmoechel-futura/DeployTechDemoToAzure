@@ -39,6 +39,7 @@ jobs:
           akv_secrets: (rabbitmqpassword admin-user-name)
           env-idp-admin-password: idp-admin-password
           env-idp-admin-username: idp-admin-username
+          env-rabbitmq-password: rabbitmq-password
 
       - uses: azure/login@v1
         with:
