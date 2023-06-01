@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     env:
-      NAMESPACE: ${{ github.event.inputs.namespace }}
+      NAMESPACE: ${{env.NAMESPACE}}
     steps:
       - run: echo env.NAMESPACE
       - uses: azure/login@v1
