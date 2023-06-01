@@ -88,7 +88,7 @@ runs:
     with:
       container-registry-url: ${{ env.ACR_LOGON_SERVER }}
       container-registry-username: ${{ inputs.service-principal-id }}
-      container-registry-password: ${{ secrets.service-principal-password }}
+      container-registry-password: ${{ inputs.service-principal-password }}
       secret-name: ${{ inputs.aks-secret }}
       namespace: ${{ env.NAMESPACE }}
     
@@ -100,5 +100,5 @@ runs:
       images: |
         ${{ env.IMAGE_NAME }}
       imagepullsecrets: |
-        ${{ secrets.AKS_SECRET }}
+        ${{ inputs.aks-secret }}
       namespace: ${{ env.NAMESPACE }}
