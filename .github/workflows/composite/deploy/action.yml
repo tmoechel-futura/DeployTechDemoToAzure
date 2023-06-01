@@ -22,22 +22,9 @@ inputs:
   service-principal-password:
     description: "SERVICE_PRINCIPAL_PASSWORD Secret"
     required: true
-    
   akv_secrets:
     description: "Secrets to retrieve from Azure Key Vault"
     required: true
-  idp-admin-password:
-    description: "Name of env for idp admin password"
-    required: true
-  idp-admin-username:
-    description: "Name of env for idp admin username"
-    required: true
-  rabbitmq-password:
-    description: "rabbitmq password"
-    required: false
-  db-connection:
-    description: "Database connection string"
-    required: false
 
 runs:
   using: "composite"
@@ -62,10 +49,10 @@ runs:
     with:
       files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
     env:
-      ${{ inputs.idp-admin-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-      ${{ inputs.idp-admin-username }}: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
-      ${{ inputs.rabbitmq-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-      ${{ inputs.db-connection }}: ${{ steps.azure-keyvault-secrets.outputs.dbconnection }}
+      idp-admin-password: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+      idp-admin-username: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
+      rabbitmq-password: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+      db-connection: ${{ steps.azure-keyvault-secrets.outputs.dbconnection }}
       
   - uses: azure/login@v1
     with:

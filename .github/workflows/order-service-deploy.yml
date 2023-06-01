@@ -39,8 +39,4 @@ jobs:
           service-principal-id: ${{secrets.SERVICE_PRINCIPAL_ID}}
           service-principal-password: ${{secrets.SERVICE_PRINCIPAL_PASSWORD}}
           akv_secrets: (rabbitmqpassword admin-user-name dbconnection)
-          idp-admin-password: idp-admin-password
-          idp-admin-username: idp-admin-username
-          rabbitmq-password: rabbitmq-password
-          db-connection: db-connection
           
