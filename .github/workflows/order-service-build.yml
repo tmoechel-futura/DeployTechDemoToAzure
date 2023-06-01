@@ -9,6 +9,7 @@ on:
       - FS.TechDemo.Shared/**
       - .github/workflows/order-service-build.yml
       - .github/workflows/order-service-deploy.yml
+      - .github/workflows/composite/**
 
 env:
   SERVICE: order-service

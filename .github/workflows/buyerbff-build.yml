@@ -9,6 +9,7 @@ on:
       - FS.TechDemo.Shared/**
       - .github/workflows/buyerbff-build.yml
       - .github/workflows/buyerbff-deploy.yml
+      - .github/workflows/composite/**
 
 env:
   SERVICE: buyer-bff
