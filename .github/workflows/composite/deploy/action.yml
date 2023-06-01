@@ -71,7 +71,8 @@ runs:
   - name: 'Create namespace'
     shell: bash  
     run: |
-        kubectl create namespace ${{ inputs.namespace }} --dry-run -o json | kubectl apply -f -
+        echo "namespace ${{ env.NAMESPACE }}"
+        kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
     
     # Create image pull secret for ACR
   - uses: azure/k8s-create-secret@v4
