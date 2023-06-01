@@ -36,10 +36,11 @@ jobs:
       
       - uses: ./.github/workflows/composite/deploy
         with:
-          akv_secrets: (rabbitmqpassword admin-user-name)
-          env-idp-admin-password: idp-admin-password
-          env-idp-admin-username: idp-admin-username
-          env-rabbitmq-password: rabbitmq-password
+          akv_secrets: (rabbitmqpassword admin-user-name dbconnection)
+          idp-admin-password: idp-admin-password
+          idp-admin-username: idp-admin-username
+          rabbitmq-password: rabbitmq-password
+          db-connection: db-connection
 
       - uses: azure/login@v1
         with:

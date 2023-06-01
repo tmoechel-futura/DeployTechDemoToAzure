@@ -5,13 +5,19 @@ inputs:
   akv_secrets:
     description: "Secrets to retrieve from Azure Key Vault"
     required: true
-  env-idp-admin-password:
+  idp-admin-password:
     description: "Name of env for idp admin password"
     required: true
-  env-idp-admin-username:
+  idp-admin-username:
     description: "Name of env for idp admin username"
-    required: true  
-  
+    required: true
+  rabbitmq-password:
+    description: "rabbitmq password"
+    required: false
+  db-connection:
+    description: "Database connection string"
+    required: false
+
 runs:
   using: "composite"
   steps:
@@ -19,6 +25,7 @@ runs:
     id: azure-keyvault-secrets
     shell: bash
     run: |
+      echo ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
       secrets_get=${{ inputs.akv_secrets }}
       for secret_get in ${secrets_get[@]}
       do
@@ -32,8 +39,9 @@ runs:
     with:
       files: ./${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
     env:
-      ${{ inputs.env-idp-admin-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
-      ${{ inputs.env-idp-admin-username }}: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
-      ${{ inputs. env-rabbitmq-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+      ${{ inputs.idp-admin-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+      ${{ inputs.idp-admin-username }}: ${{ steps.azure-keyvault-secrets.outputs.admin-user-name }}
+      ${{ inputs.rabbitmq-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
+      ${{ inputs.db-connection }}: ${{ steps.azure-keyvault-secrets.outputs.dbconnection }}
       
      
