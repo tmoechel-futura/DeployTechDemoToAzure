@@ -1,7 +1,28 @@
+# composite actions have no notice of secrets, so they must be passed as parameters
+
 name: "Composite Deploy Actions"
 description: "Common Deploy Actions to AKS"
 
 inputs:
+  aks-name:
+    description: "AKS_NAME Secret"
+    required: true
+  azure-credentials: 
+    description: "AZURE_CREDENTIALS Secret"
+    required: true
+  aks-resource-group:
+    description: "AKS_RESOURCE_GROUP Secret"
+    required: true
+  aks-secret:
+    description: "AKS_SECRET Secret"
+    required: true
+  service-principal-id: 
+    description: "SERVICE_PRINCIPAL_ID Secret"
+    required: true
+  service-principal-password:
+    description: "SERVICE_PRINCIPAL_PASSWORD Secret"
+    required: true
+    
   akv_secrets:
     description: "Secrets to retrieve from Azure Key Vault"
     required: true
@@ -48,13 +69,13 @@ runs:
       
   - uses: azure/login@v1
     with:
-      creds: ${{ secrets.AZURE_CREDENTIALS }}  
+      creds: ${{ inputs.azure-credentials }}  
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     # Set the target Azure Kubernetes Service (AKS) cluster. 
   - uses: azure/aks-set-context@v3.2
     with:
-      cluster-name: ${{ secrets.AKS_NAME }}
-      resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+      cluster-name: ${{ inputs.aks-name }}
+      resource-group: ${{ inputs.aks-resource-group }}
     
     # Create namespace if doesn't exist
     run: |
@@ -64,9 +85,9 @@ runs:
   - uses: azure/k8s-create-secret@v4
     with:
       container-registry-url: ${{ env.ACR_LOGON_SERVER }}
-      container-registry-username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-      container-registry-password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
-      secret-name: ${{ secrets.AKS_SECRET }}
+      container-registry-username: ${{ inputs.service-principal-id }}
+      container-registry-password: ${{ secrets.service-principal-password }}
+      secret-name: ${{ inputs.aks-secret }}
       namespace: ${{ env.NAMESPACE }}
     
     # Deploy app to AKS

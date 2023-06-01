@@ -32,8 +32,15 @@ jobs:
         
       - uses: ./.github/workflows/composite/deploy
         with:
+          aks-name: ${{secrets.AKS_NAME}}
+          azure-credentials: ${{secrets.AZURE_CREDENTIALS}}
+          aks-resource-group: ${{secrets.AKS_RESOURCE_GROUP}}
+          aks-secret: ${{secrets.AKS_SECRET}}
+          service-principal-id: ${{secrets.SERVICE_PRINCIPAL_ID}}
+          service-principal-password: ${{secrets.SERVICE_PRINCIPAL_PASSWORD}}
           akv_secrets: (rabbitmqpassword admin-user-name dbconnection)
           idp-admin-password: idp-admin-password
           idp-admin-username: idp-admin-username
           rabbitmq-password: rabbitmq-password
           db-connection: db-connection
+          
