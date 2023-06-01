@@ -32,13 +32,13 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - uses: actions/checkout@v3
+      
       - uses: ./.github/workflows/composite/deploy
         with:
           akv_secrets: (rabbitmqpassword admin-user-name)
           env-idp-admin-password: idp-admin-password
           env-idp-admin-username: idp-admin-username
-
-      - uses: actions/checkout@v3
 
       - uses: azure/login@v1
         with:
