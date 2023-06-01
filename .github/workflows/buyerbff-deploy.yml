@@ -23,7 +23,12 @@ jobs:
     env:
       NAMESPACE: dev
     steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - uses: actions/checkout@v3
+        
       - uses: ./.github/workflows/composite/deploy
         with:
           akv_secrets: (rabbitmqpassword admin-user-name dbconnection)
