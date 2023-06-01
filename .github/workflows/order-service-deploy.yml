@@ -38,7 +38,7 @@ jobs:
             echo "::add-mask::$value"
             echo "$secret_get=$value" >> $GITHUB_OUTPUT
           done
-      # to checkout additional files required for deployment
+      
       - uses: actions/checkout@v3
 
       - name: Replace tokens for Service Config
