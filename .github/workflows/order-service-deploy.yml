@@ -21,9 +21,12 @@ jobs:
   deploy-to-aks:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    env:
-      NAMESPACE: $environment
     steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: deploy-artifact
+
       - run: echo $environment
       - uses: azure/login@v1
         with:

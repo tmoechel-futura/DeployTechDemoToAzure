@@ -38,6 +38,13 @@ jobs:
             echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
           fi
       - run: echo $environment
+        
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: deploy-artifact
+          path: $GITHUB_ENV
+          
       - name: Checkout code
         uses: actions/checkout@v3
       - name: 'Build and push image'
