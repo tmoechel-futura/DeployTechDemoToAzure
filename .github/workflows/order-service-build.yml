@@ -4,7 +4,7 @@ on:
   create:
   workflow_dispatch:
     inputs:
-      namespace:
+      environment:
         description: "Environment (buyer-d, buyer-q, szfg-q, szfg)"
         required: true
         default: buyer-d
@@ -24,15 +24,17 @@ env:
   SERVICE_DIR: FS.TechDemo.OrderService
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/order-service:${{ github.sha }}
-  NAMESPACE: ${{ github.event.inputs.namespace }}
   
 jobs:
   build-image:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
     steps:
-      - run: echo ${{env.NAMESPACE}}
-      - run: echo ${{ github.event.inputs.namespace }}
+      - name: "Set environment if not workflow dispatch"
+        run: |
+          if [ -z "${{ github.event.inputs.environment }}" ]; then
+            echo "environment=buyer-d" >> $GITHUB_ENV
+      - run: echo $environment
       - name: Checkout code
         uses: actions/checkout@v3
       - name: 'Build and push image'

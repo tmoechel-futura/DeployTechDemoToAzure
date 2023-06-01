@@ -24,7 +24,7 @@ jobs:
     env:
       NAMESPACE: ${{env.NAMESPACE}}
     steps:
-      - run: echo env.NAMESPACE
+      - run: echo $environment
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
