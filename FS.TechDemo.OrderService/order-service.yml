@@ -44,7 +44,7 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development           
             - name: Database__ConnectionString
-              value: "{db-connection}"
+              value: "#{db-connection}#"
             - name: MessageBroker__Broker__RabbitMq__Host
               value: rabbitmq
             - name: MessageBroker__Broker__RabbitMq__VirtualHost
