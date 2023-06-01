@@ -21,6 +21,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+  - uses: azure/login@v1
+    with:
+      creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  - uses: actions/checkout@v3
+    
   - name: 'Get secrets'
     id: azure-keyvault-secrets
     shell: bash
@@ -44,4 +50,36 @@ runs:
       ${{ inputs.rabbitmq-password }}: ${{ steps.azure-keyvault-secrets.outputs.rabbitmqpassword }}
       ${{ inputs.db-connection }}: ${{ steps.azure-keyvault-secrets.outputs.dbconnection }}
       
-     
+  - uses: azure/login@v1
+    with:
+      creds: ${{ secrets.AZURE_CREDENTIALS }}  
+    # Set the target Azure Kubernetes Service (AKS) cluster. 
+    # Set the target Azure Kubernetes Service (AKS) cluster. 
+  - uses: azure/aks-set-context@v3.2
+    with:
+      cluster-name: ${{ secrets.AKS_NAME }}
+      resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+    
+    # Create namespace if doesn't exist
+    run: |
+      kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+    
+    # Create image pull secret for ACR
+  - uses: azure/k8s-create-secret@v4
+    with:
+      container-registry-url: ${{ env.ACR_LOGON_SERVER }}
+      container-registry-username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+      container-registry-password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
+      secret-name: ${{ secrets.AKS_SECRET }}
+      namespace: ${{ env.NAMESPACE }}
+    
+    # Deploy app to AKS
+  - uses: azure/k8s-deploy@v4.9
+    with:
+      manifests: |
+        ${{env.SERVICE_DIR}}/${{env.SERVICE}}.yml
+      images: |
+        ${{ env.IMAGE_NAME }}
+      imagepullsecrets: |
+        ${{ secrets.AKS_SECRET }}
+      namespace: ${{ env.NAMESPACE }}
