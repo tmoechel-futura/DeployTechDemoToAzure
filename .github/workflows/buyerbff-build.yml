@@ -41,3 +41,24 @@ jobs:
       - run: docker build -t ${{ env.IMAGE_NAME }} -f ./${{ env.SERVICE_DIR }}/Dockerfile .
       - run: docker push ${{ env.IMAGE_NAME }}        
       
+  deploy-to-aks:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    env:
+      NAMESPACE: dev
+    steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/workflows/composite/deploy
+        with:
+          aks-name: ${{secrets.AKS_NAME}}
+          azure-credentials: ${{secrets.AZURE_CREDENTIALS}}
+          aks-resource-group: ${{secrets.AKS_RESOURCE_GROUP}}
+          aks-secret: ${{secrets.AKS_SECRET}}
+          service-principal-id: ${{secrets.SERVICE_PRINCIPAL_ID}}
+          service-principal-password: ${{secrets.SERVICE_PRINCIPAL_PASSWORD}}
+          akv_secrets: (rabbitmqpassword admin-user-name dbconnection)     
