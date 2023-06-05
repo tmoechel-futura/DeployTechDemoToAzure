@@ -72,7 +72,8 @@ runs:
     shell: bash  
     run: |
         echo "namespace ${{ env.NAMESPACE }}"
-        kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+        namespace = ${{ steps.azure-keyvault-secrets.outputs.namespace }}
+        kubectl create namespace $namespace --dry-run -o json | kubectl apply -f -
     
     # Create image pull secret for ACR
   - uses: azure/k8s-create-secret@v4
