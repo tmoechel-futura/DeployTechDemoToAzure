@@ -61,4 +61,4 @@ jobs:
           aks-secret: ${{secrets.AKS_SECRET}}
           service-principal-id: ${{secrets.SERVICE_PRINCIPAL_ID}}
           service-principal-password: ${{secrets.SERVICE_PRINCIPAL_PASSWORD}}
-          akv_secrets: (rabbitmqpassword admin-user-name dbconnection)     
+          akv_secrets: (rabbitmqpassword admin-user-name dbconnection namespace)    
