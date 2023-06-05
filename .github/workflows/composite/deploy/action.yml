@@ -76,7 +76,7 @@ runs:
     
     # Create image pull secret for ACR
   - uses: azure/k8s-create-secret@v4
-    with:
+    with:            
       container-registry-url: ${{ env.ACR_LOGON_SERVER }}
       container-registry-username: ${{ inputs.service-principal-id }}
       container-registry-password: ${{ inputs.service-principal-password }}
