@@ -71,7 +71,7 @@ runs:
   - name: 'Create namespace'
     shell: bash  
     run: |
-        namespace = ${{ steps.azure-keyvault-secrets.outputs.namespace }}
+        namespace=${{ steps.azure-keyvault-secrets.outputs.namespace }}
         echo $namespace
         kubectl create namespace $namespace --dry-run -o json | kubectl apply -f -
     
